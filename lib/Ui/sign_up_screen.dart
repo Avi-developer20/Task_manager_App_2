@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import 'package:untitled/Data/service/network_caller.dart';
 import 'package:untitled/Data/urls.dart';
+import 'package:untitled/Ui/controler/sign_in_controller.dart';
 import 'package:untitled/Widget/backgroud_screen.dart';
 import 'package:untitled/Widget/center_circular_indicator.dart';
 import 'package:untitled/Widget/snackbar_message.dart';
@@ -160,11 +161,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                        ),
                        const SizedBox(height: 20,),
-                       Visibility(
-                         visible: _signupINProgress == false,
-                         replacement: CenterCircularIndicatorWidget(),
-                         child: ElevatedButton(onPressed: _onTapToSignUpButton,
-                             child: Icon(Icons.arrow_circle_right_outlined)),
+                       GetBuilder<SignInController>(
+                         builder: (controller) {
+                           return Visibility(
+                             visible: _signupINProgress == false,
+                             replacement: CenterCircularIndicatorWidget(),
+                             child: ElevatedButton(
+                                 onPressed: _onTapToSignUpButton,
+                                 child: Icon(
+                                     Icons.arrow_circle_right_outlined)),
+                           );
+                         }
                        ),
                        const SizedBox(height: 18,),
                        Center(

@@ -10,6 +10,8 @@ import 'package:untitled/Widget/center_circular_indicator.dart';
 import 'package:untitled/Widget/snackbar_message.dart';
 import 'package:untitled/Widget/task_card.dart';
 import 'package:untitled/Widget/task_count_summery_card.dart';
+import 'package:untitled/Ui/controler/new_task_list_controler.dart';
+import 'package:get/get.dart';
 
 class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({super.key});
@@ -29,7 +31,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_){
-      _getNewTaskList();
+      Get.find<NewTaskListController>().getNewTaskList();
       _getNewTaskCountList();
 
     });
@@ -112,23 +114,27 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: Visibility(
-                visible: _getNewTaskINProgess == false,
-                replacement: CenterCircularIndicatorWidget(),
-                child: ListView.builder(
-                  itemCount: _newTaskList.length,
-                  itemBuilder: (context, index) {
-                    return TaskCard(
-                      taskType: TaskType.tNew,
-                        taskModel: _newTaskList[index],
-                      onStatusUpdate: () {
-                        _getNewTaskList();
-                        _getNewTaskCountList();
-                      },
+              child: GetBuilder<NewTaskListController>(
+                builder: (controller) {
+                  return Visibility(
+                    visible: _getNewTaskINProgess == false,
+                    replacement: CenterCircularIndicatorWidget(),
+                    child: ListView.builder(
+                      itemCount: _newTaskList.length,
+                      itemBuilder: (context, index) {
+                        return TaskCard(
+                          taskType: TaskType.tNew,
+                          taskModel: _newTaskList[index],
+                          onStatusUpdate: () {
+                            _getNewTaskList();
+                            _getNewTaskCountList();
+                          },
 
-                    );
-                  },
-                ),
+                        );
+                      },
+                    ),
+                  );
+                }
               ),
             ),
           ],

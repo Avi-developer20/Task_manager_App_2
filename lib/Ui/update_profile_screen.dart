@@ -105,7 +105,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             : base64Encode(imageBytes),
       );
 
-      await AuthController.updateUserData(userModel);
+      await AuthController.updateUserData(userModel, AuthController.accessToken!);
       _passwordTEController.clear();
 
       if (mounted) {
